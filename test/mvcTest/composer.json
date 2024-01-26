@@ -1,11 +1,10 @@
 {
     "name": "cuong/mvc",
-    "authors": [
-        {
-            "name": "CuongTran279",
-            "email": "cuongtdph32393@fpt.edu.vn"
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
         }
-    ],
+    },
     "require": {
         "phroute/phroute": "^2.2"
     }

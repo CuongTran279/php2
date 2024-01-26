@@ -3,7 +3,7 @@
         'name' => 'cuong/mvc',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '5418ffe26fbc0276d5bb41eef8f05267deae1833',
+        'reference' => '5e113f8f2ac3f2f940d8f4d3ce47683b5de9e4b2',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'cuong/mvc' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '5418ffe26fbc0276d5bb41eef8f05267deae1833',
+            'reference' => '5e113f8f2ac3f2f940d8f4d3ce47683b5de9e4b2',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
