@@ -4,7 +4,7 @@
     class postController{
         function view(){
             $obj = new post();
-            $item = $obj->viewAll();
+            $items = $obj->viewAll();
             require_once "app/view/list.php";
         }
 
@@ -24,10 +24,24 @@
             if(isset($_GET["id"])){
                 $obj = new post();
                 $item = $obj->viewEdit($_GET["id"]);
-                if(isset($_POST['submit'])){
+                require_once "app/view/edit.php";
+            }
+        }
+        function edit(){
+            if(isset($_POST['update'])){
+                $obj = new post();
+                if(isset($_GET["id"])){
                     $obj->edit($_GET['id'],$_POST['title'],$_POST['content']);
-                    header ("Location:list");
+                    header ("Location: list");
                 }
+            }
+        }
+        
+        function delete(){
+            if(isset($_GET["id"])){
+                $obj = new post();
+                $obj->delete($_GET['id']);
+                header ("Location: list");
             }
         }
     }

@@ -22,8 +22,11 @@ $router->get('/', function(){
 //định nghĩa đường dẫn trỏ đến Product Controller
 $router->get('list',[App\controller\postController::class, 'view']);
 $router->get('add',[App\controller\postController::class, 'add']);
-$router->post('addPost',[App\controller\postController::class, 'addPost']);
+$router->get('sua',[App\controller\postController::class ,'editView']);
+$router->get('xoa',[App\controller\postController::class ,'delete']);
 
+$router->post('addPost',[App\controller\postController::class, 'addPost']);
+$router->post('editPost',[App\controller\postController::class, 'edit']);
 # NB. You can cache the return value from $router->getData() so you don't have to create the routes each request - massive speed gains
 $dispatcher = new Phroute\Phroute\Dispatcher($router->getData());
 
