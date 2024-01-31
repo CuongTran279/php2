@@ -1,15 +1,22 @@
 <?php
     namespace App\controller;
     use App\models\post;
+    use eftec\bladeone\BladeOne;
     class postController{
+        public $view;
+        function __construct(){
+            $view = "app/view";
+            $cache = "app/cache";
+            $this->view = new BladeOne($view, $cache, BladeOne::MODE_AUTO);
+        }
         function view(){
             $obj = new post();
             $items = $obj->viewAll();
-            require_once "app/view/list.php";
+            return $this->view->run('list' , ['item1'=> $items]);
         }
 
         function add(){
-            require_once "app/view/add.php";
+            return $this->view->run('add');
         }
 
         function addPost(){
@@ -20,29 +27,21 @@
             }
         }
 
-        function editView(){
-            if(isset($_GET["id"])){
+        function editView($id){
                 $obj = new post();
-                $item = $obj->viewEdit($_GET["id"]);
-                require_once "app/view/edit.php";
-            }
+                $item = $obj->viewEdit($id);
+                return $this->view->run('edit' , ['item1'=> $item]);
         }
-        function edit(){
-            if(isset($_POST['update'])){
+        function edit($id){
                 $obj = new post();
-                if(isset($_GET["id"])){
-                    $obj->edit($_GET['id'],$_POST['title'],$_POST['content']);
-                    header ("Location: list");
-                }
-            }
+                $obj->edit($id,$_POST['title'],$_POST['content']);
+                header ("Location: ".route('list'));
         }
         
-        function delete(){
-            if(isset($_GET["id"])){
+        function delete($id){
                 $obj = new post();
-                $obj->delete($_GET['id']);
-                header ("Location: list");
-            }
+                $obj->delete($id);
+                header ("Location:".route('list'));
         }
     }
 ?>

@@ -3,98 +3,124 @@
     use App\model\categories;
     use App\model\user;
     use App\model\product;
-
+    use eftec\bladeone\BladeOne;
+    session_start();
+    $_SESSION['user'] = "";
     class homeController {
+        public $view;
+        function __construct(){
+            $view = "app/view";
+            $cache = "app/cache";
+            $this->view = new BladeOne($view, $cache, BladeOne::MODE_AUTO);
+        }
         // Home
-        function home(){
+        function homeAdmin(){
             require_once "app/view/Home/homeAdmin.php";
+        }
+        function homeUser(){
+            require_once "app/view/Home/homeUser.php";
         }
         // Product
         function viewAllProduct() {
             $product = new product();
-            $items = $product->viewProduct();
-            require_once "app/view/Product/list.php";
+            $items1 = $product->viewProduct();
+            $categories = new categories();
+            $itemsC1 = $categories->viewCategories();
+            // require_once "app/view/Product/list.php";
+            $stt=1;
+            $classView1 = "";
+            foreach($items1 as $product) {
+                foreach($itemsC1 as $categories) {
+                    if($categories['id'] == $product['id_categories']){
+                        $classView1 = $categories['name'];
+                    }
+                }
+            } 
+            return $this->view->run('Product.list',['items'=>$items1,'itemsC'=>$itemsC1,'i'=>$stt,'classView'=>$classView1]);
         }
-        function viewIdProduct() {
-            if(isset($_GET["id"])){
-                $product = new product();
-                $id = $_GET["id"];
-                $item = $product->viewProductById($id);
-                require_once "app/view/Product/edit.php";
-            }
+        function viewIdProduct($id) {
+            $product = new product();
+            $categories = new categories();
+            $itemsC1 = $categories->viewCategories();
+            $item1 = $product->viewProductById($id);
+            return $this->view->run('Product.edit',['itemsC'=>$itemsC1,'item'=>$item1]);
         }
         function addP(){
-            require_once "app/view/Product/add.php";
+            $categories = new categories();
+            $itemsC1 = $categories->viewCategories();
+            return $this->view->run('Product.add',['itemsC'=> $itemsC1]);
         }
         function addProduct() {
             if(isset($_POST["submit"])){
+                $categories = new categories();
+                $itemsC = $categories->viewCategories();
                 $product = new product();
-                $product->addProduct($_POST['name'],$_POST['price'],$_POST['quantity'],$_POST['img'],$_POST['id_categories']);
-                header ('Location: ListProduct');
-            }
-        }
-
-        function deleteProduct() {
-            if(isset($_GET["id"])){
-                $product = new product();
-                $id = $_GET["id"];
-                $product->deleteProduct($id);
-                header ('Location: ListProduct');
-            }
-        }
-
-        function editProduct() {
-            if(isset($_POST['submit'])){
-                if(isset($_GET["id"])){
-                    $id = $_GET["id"];
-                    $product = new product();
-                    $product->updateProduct($id,$_POST['name'],$_POST['price'],$_POST['quantity'],$_POST['img'],$_POST['id_categories']);
-                    header ('Location: ListProduct');
+                $img = $_FILES['img']['name'];
+                $target_dir = "uploads/";
+                $target_file = $target_dir . basename($_FILES["img"]["name"]);
+                if (move_uploaded_file($_FILES["img"]["tmp_name"], $target_file)) {
+                } else {
                 }
+                $product->addProduct($_POST['name'],$_POST['price'],$_POST['quantity'],$img,$_POST['id_categories']);
+                header ('Location:'.route('ListProduct'));
+            }
+        }
+
+        function deleteProduct($id) {
+            $product = new product();
+            $product->deleteProduct($id);
+            header ('Location:'.route('ListProduct'));
+        }
+
+        function editProduct($id) {
+            if(isset($_POST['submit'])){
+                    $categories = new categories();
+                    $itemsC = $categories->viewCategories();
+                    $product = new product();
+                    $img = $_FILES['img']['name'];
+                    $target_dir = "uploads/";
+                    $target_file = $target_dir . basename($_FILES["img"]["name"]);
+                    if (move_uploaded_file($_FILES["img"]["tmp_name"], $target_file)) {
+                    } else {
+                    }
+                    $product->updateProduct($id,$_POST['name'],$_POST['price'],$_POST['quantity'],$_POST['img'],$_POST['id_categories']);
+                    header ('Location:'.route('ListProduct'));
             }
         }
         // Categories
         function viewAllCategories(){
             $categories = new categories();
-            $items = $categories->viewCategories();
-            require_once "app/view/Categories/list.php";
+            $items1 = $categories->viewCategories();
+            $i = 1;
+            return $this->view->run('Categories.list',['items'=>$items1 , 'stt'=>$i]);
         }
 
-        function viewIdCategories() {
-            if(isset($_GET["id"])){
-                $categories = new categories();
-                $id = $_GET["id"];
-                $item = $categories->viewCategoriesById($id);
-                require_once "app/view/Categories/edit.php";
-            }
+        function viewIdCategories($id) {
+            $categories = new categories();
+            $item1 = $categories->viewCategoriesById($id);
+            return $this->view->run('Categories.edit',['item'=>$item1]);
         }
         function addCategories() {
             if(isset($_POST["submit"])){
                 $categories = new categories();
                 $categories->addCategories($_POST['name']);
-                header ('Location: ListCategories');
+                header ('Location:'.route('ListCategories'));
             }
         }
         function addC(){
-            require_once "app/view/Categories/add.php";
+            return $this->view->run('Categories.add');
         }
-        function deleteCategories() {
-            if(isset($_GET["id"])){
-                $categories = new categories();
-                $id = $_GET["id"];
-                $categories->deleteCategories($id);
-                header ('Location: ListCategories');
-            }
+        function deleteCategories($id) {
+            $categories = new categories();
+            $categories->deleteCategories($id);
+            header ('Location:'.route('ListCategories'));
         }
 
-        function editCategories() {
+        function editCategories($id) {
             if(isset($_POST['submit'])){
-                if(isset($_GET["id"])){
-                    $id = $_GET["id"];
-                    $categories = new categories();
-                    $categories->updateCategories($id,$_POST['name']);
-                    header ('Location: ListCategories');
-                }
+                $categories = new categories();
+                $categories->updateCategories($id,$_POST['name']);
+                header ('Location:'.route('ListCategories'));
             }
         }
         // User
@@ -106,6 +132,8 @@
         function viewIdUser() {
             if(isset($_GET["id"])){
                 $user = new user();
+                $items = $user->viewUser();
+                $user = new user();
                 $id = $_GET["id"];
                 $item = $user->viewUserById($id);
                 require_once "app/view/User/edit.php";
@@ -115,7 +143,22 @@
             if(isset($_POST["submit"])){
                 $user = new user();
                 $user->addUser($_POST['name'],$_POST['pass'],$_POST['email']);
-                // header ('Location: ListProduct');
+                header ('Location: addU');
+            }
+        }
+
+        function login(){
+            if(isset($_POST["submit"])){
+                $user = new user();
+                $check = $user->checkUser($_POST['name'],$_POST['pass']);
+                if (is_array($check)) {
+                    $_SESSION['user'] = $check;
+                    header ('Location: addU');
+                } else {
+                    if(!empty($_POST['name']) && !empty($_POST['pass'])){
+                        echo  "Thông tin không đúng, vui lòng kiểm tra lại";
+                    }
+                }
             }
         }
         function addU(){

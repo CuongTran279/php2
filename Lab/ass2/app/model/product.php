@@ -32,9 +32,18 @@
             if($img != ""){
                 $sql = "UPDATE product SET name='$name',price='$price',quantity='$quantity',img='$img',id_categories='$id_categories',update_at='$creat' WHERE id=".$id;
             }else{
-                $sql = "UPDATE product SET name='$name',price='$price',quantity='$quantity',id_categories='[value-6]',update_at='$creat' WHERE id=".$id;
+                $sql = "UPDATE product SET name='$name',price='$price',quantity='$quantity',id_categories='$id_categories',update_at='$creat' WHERE id=".$id;
             }
             return $this->getData($sql,false);
         }
+        // function updateProduct($id,$name,$price,$quantity,$img,$id_categories){
+        //     $creat = date("Y-m-d H:i:s");
+        //     if($img != ""){
+        //         $sql = "UPDATE product SET name='$name',price='$price',quantity='$quantity',img='$img',id_categories='$id_categories',update_at='$creat' WHERE id=".$id;
+        //     }else{
+        //         $sql = "UPDATE product SET name='$name',price='$price',quantity='$quantity',id_categories='[value-6]',update_at='$creat' WHERE id=".$id;
+        //     }
+        //     return $this->getData($sql,false);
+        // }
     }
 ?>

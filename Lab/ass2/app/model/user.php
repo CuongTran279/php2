@@ -12,7 +12,10 @@
             $sql = "SELECT * FROM user WHERE id=".$id;
             return $this->getData($sql,false);
         }
-
+        function checkUser($name,$pass){
+            $sql = "SELECT * FROM user WHERE name = '".$name."' AND pass = '".$pass."'";
+            return $this->getData($sql,false);
+        }
         // Add user
         function addUser($name,$pass,$email){
             $creat = date("Y-m-d H:i:s");
