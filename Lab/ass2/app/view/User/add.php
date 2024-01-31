@@ -20,4 +20,5 @@
     
     <button type="submit" name="submit" class="btn btn-primary">Đăng ký</button>
     </form>
+    <a href="loginU">Đăng nhập</a>
 </div>

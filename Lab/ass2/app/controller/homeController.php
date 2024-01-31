@@ -18,7 +18,21 @@
             require_once "app/view/Home/homeAdmin.php";
         }
         function homeUser(){
-            require_once "app/view/Home/homeUser.php";
+            $product = new product();
+            $items1 = $product->viewProduct();
+            $categories = new categories();
+            $itemsC1 = $categories->viewCategories();
+            // require_once "app/view/Product/list.php";
+            $stt=1;
+            $classView1 = "";
+            foreach($items1 as $product) {
+                foreach($itemsC1 as $categories) {
+                    if($categories['id'] == $product['id_categories']){
+                        $classView1 = $categories['name'];
+                    }
+                }
+            } 
+            return $this->view->run('Home.homeUser',['items'=>$items1,'itemsC'=>$itemsC1,'i'=>$stt,'classView'=>$classView1]);
         }
         // Product
         function viewAllProduct() {
@@ -37,6 +51,19 @@
                 }
             } 
             return $this->view->run('Product.list',['items'=>$items1,'itemsC'=>$itemsC1,'i'=>$stt,'classView'=>$classView1]);
+        }
+        function detailProdut($id) {
+            $product = new product();
+            $categories = new categories();
+            $itemsC1 = $categories->viewCategories();
+            $item1 = $product->viewProductById($id);
+            $classView1 = "";
+                foreach($itemsC1 as $categories) {
+                    if($categories['id'] == $item1['id_categories']){
+                        $classView1 = $categories['name'];
+                    }
+                }
+            return $this->view->run('Product.detail',['itemsC'=>$itemsC1,'item'=>$item1,'classView'=>$classView1]);
         }
         function viewIdProduct($id) {
             $product = new product();
@@ -149,20 +176,30 @@
 
         function login(){
             if(isset($_POST["submit"])){
+                $thongbao = "";
                 $user = new user();
                 $check = $user->checkUser($_POST['name'],$_POST['pass']);
+                if(empty($_POST['name'])){
+                    header ('Location:'.route('loginU'));
+                }
+                if(empty($_POST['pass'])){
+                    header ('Location:'.route('loginU'));
+                }
                 if (is_array($check)) {
                     $_SESSION['user'] = $check;
-                    header ('Location: addU');
+                    header ('Location:'.route('list'));
                 } else {
                     if(!empty($_POST['name']) && !empty($_POST['pass'])){
-                        echo  "Thông tin không đúng, vui lòng kiểm tra lại";
+                        header ('Location:'.route('loginU'));
                     }
                 }
             }
         }
         function addU(){
             require_once "app/view/User/add.php";
+        }
+        function loginU(){
+            require_once "app/view/User/login.php";
         }
         function deleteUser() {
             if(isset($_GET["id"])){

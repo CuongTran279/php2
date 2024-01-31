@@ -24,13 +24,11 @@
             <li class="nav-item">
                 <a class="nav-link" href="http://localhost/php2/Lab/ass2/ListUser">Danh sách người dùng</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost/php2/Lab/ass2/list">Danh sách sản phẩm</a>
+            </li>
         </ul>
         
-        <footer class="position-absolute top-100 start-50 translate-middle w-75 p-3">
-            <div class="p-3 mb-2 bg-dark text-white text-center ">
-                <h5 >Footer</h5>
-            </div>
-        </footer>
     </div>
     
     

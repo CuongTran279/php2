@@ -43,7 +43,10 @@
         //     $router->get('user', [App\controller\homeController::class, 'homeUser']);
         // }
     // }
-        $router->get('list', [App\controller\homeController::class, 'homeUser']);   
+        $router->get('list', [App\controller\homeController::class, 'homeUser']);
+        $router->post('login', [App\controller\homeController::class, 'login']);    
+        $router->get('loginU', [App\controller\homeController::class, 'loginU']);    
+        $router->get('detail/{id}', [App\controller\homeController::class, 'detailProdut']);
     
     
 
