@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row p-5">
         <div class="col">
-            <img src="uploads/{{$item['img']}}" class="card-img-top" alt="..." style="width:100%;height:100px">
+            <img src="../uploads/{{$item['img']}}" class="card-img-top" alt="..." style="height:300px;width:300px">
         </div>
         <div class="col">
             <p>Tên:{{$item['name']}}</p>

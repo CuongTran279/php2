@@ -43,13 +43,13 @@
             // require_once "app/view/Product/list.php";
             $stt=1;
             $classView1 = "";
-            foreach($items1 as $product) {
-                foreach($itemsC1 as $categories) {
-                    if($categories['id'] == $product['id_categories']){
-                        $classView1 = $categories['name'];
-                    }
-                }
-            } 
+            // foreach($items1 as $product) {
+            //     foreach($itemsC1 as $categories) {
+            //         if($categories['id'] == $product['id_categories']){
+            //             $classView1 = $categories['name'];
+            //         }
+            //     }
+            // } 
             return $this->view->run('Product.list',['items'=>$items1,'itemsC'=>$itemsC1,'i'=>$stt,'classView'=>$classView1]);
         }
         function detailProdut($id) {
@@ -58,11 +58,11 @@
             $itemsC1 = $categories->viewCategories();
             $item1 = $product->viewProductById($id);
             $classView1 = "";
-                foreach($itemsC1 as $categories) {
-                    if($categories['id'] == $item1['id_categories']){
-                        $classView1 = $categories['name'];
-                    }
+            foreach($itemsC1 as $categories) {
+                if($categories['id'] == $item1['id_categories']){
+                    $classView1 = $categories['name'];
                 }
+            }
             return $this->view->run('Product.detail',['itemsC'=>$itemsC1,'item'=>$item1,'classView'=>$classView1]);
         }
         function viewIdProduct($id) {
@@ -110,7 +110,7 @@
                     if (move_uploaded_file($_FILES["img"]["tmp_name"], $target_file)) {
                     } else {
                     }
-                    $product->updateProduct($id,$_POST['name'],$_POST['price'],$_POST['quantity'],$_POST['img'],$_POST['id_categories']);
+                    $product->updateProduct($id,$_POST['name'],$_POST['price'],$_POST['quantity'],$img,$_POST['id_categories']);
                     header ('Location:'.route('ListProduct'));
             }
         }
@@ -129,9 +129,15 @@
         }
         function addCategories() {
             if(isset($_POST["submit"])){
-                $categories = new categories();
-                $categories->addCategories($_POST['name']);
-                header ('Location:'.route('ListCategories'));
+                if(empty($_POST['name'])){
+                    echo '<script>alert("Thieu thong tin")</script>';
+                    echo "<script>window.location.href = 'addC'; </script>";
+                }else{
+                    $categories = new categories();
+                    $categories->addCategories($_POST['name']);
+                    header ('Location:'.route('ListCategories'));
+                }
+                
             }
         }
         function addC(){

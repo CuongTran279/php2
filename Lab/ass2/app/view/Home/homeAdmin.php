@@ -27,6 +27,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="http://localhost/php2/Lab/ass2/list">Danh sách sản phẩm</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost/php2/Lab/ass2/">Đăng ký</a>
+            </li>
         </ul>
         
     </div>

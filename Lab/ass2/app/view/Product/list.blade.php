@@ -16,11 +16,13 @@
         </thead>
         <tbody>
                 @foreach($items as $product)
-                    <!-- foreach($itemsC as $categories)
-                        if($categories['id'] == $product['id_categories']){
-                            $classView = $categories['name'];
-                        } -->
-                    
+                <?php
+                        foreach($itemsC as $categories) {
+                            if($categories['id'] == $product['id_categories']){
+                                $classView = $categories['name'];
+                            }
+                        }
+                ?>
             <tr>
                 
                 <th scope="row">{{$i++}}</th>

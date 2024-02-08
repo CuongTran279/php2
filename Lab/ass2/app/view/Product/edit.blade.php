@@ -5,13 +5,13 @@
       <input type="text" class="form-control " disabled id="exampleInputPassword1" value="{{$item['id']}}">
     </div>
     <div class="mb-3">
-      <label for="exampleInputPassword1" class="form-label">Tên học sinh</label>
+      <label for="exampleInputPassword1" class="form-label">Tên sản phẩm</label>
       <input type="text" class="form-control " name="name" id="exampleInputPassword1" value="{{$item['name']}}">
     </div>
     <div class="mb-3">
       <label for="exampleInputPassword1" class="form-label">Ảnh</label>
       <div class="mb-3" >
-        <img style="width:50px;height:50px" src="uploads/{{$item['img']}}" alt="">
+        <img style="width:50px;height:50px" src="../uploads/{{$item['img']}}" alt="">
       </div>
       <input type="file" class="form-control " name="img"  id="formFile">
     </div>
